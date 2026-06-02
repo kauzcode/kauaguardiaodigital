@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardião Digital</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="description" content="Plataforma educativa para conscientização e prevenção contra golpes digitais.">
+</head>
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                🛡️ Guardião Digital
+            </div>
+
+            <nav>
+                <ul class="menu">
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#analise">Analisar Mensagem</a></li>
+                    <li><a href="#educacao">Aprenda a se Proteger</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO -->
+
+    <section class="hero" id="inicio">
+        <div class="container hero-content">
+
+            <div class="hero-text">
+                <h1>Guardião Digital</h1>
+
+                <h2>
+                    Identifique sinais de possíveis golpes digitais e aprenda
+                    a navegar com mais segurança na internet.
+                </h2>
+
+                <p>
+                    Milhares de pessoas recebem diariamente mensagens falsas
+                    tentando roubar dinheiro, dados pessoais ou acessos a contas.
+                    O Guardião Digital ajuda a reconhecer sinais comuns utilizados
+                    por golpistas e explica de forma simples os motivos de atenção encontrados.
+                </p>
+
+                <a href="#analise" class="btn">
+                    Analisar Mensagem
+                </a>
+            </div>
+
+            <div class="hero-card">
+                <h3>Proteção começa com informação</h3>
+
+                <p>
+                    Antes de clicar em links, enviar dinheiro ou compartilhar dados,
+                    verifique os sinais de risco presentes na mensagem.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- DICA -->
+
+    <section class="tip-section">
+        <div class="container">
+
+            <div class="tip-card">
+                <h2>Dica de Segurança do Dia</h2>
+
+                <p id="securityTip">
+                    Carregando dica...
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ANALISE -->
+
+    <section id="analise" class="analysis-section">
+
+        <div class="container">
+
+            <h2>Analise uma mensagem suspeita</h2>
+
+            <p class="section-description">
+                Cole abaixo uma mensagem recebida por WhatsApp, SMS,
+                e-mail ou rede social para verificar sinais frequentemente encontrados
+                em golpes digitais.
+            </p>
+
+            <div class="privacy-notice">
+                Esta análise acontece localmente em seu dispositivo.
+                Nenhuma mensagem enviada é armazenada.
+            </div>
+
+            <textarea
+                id="messageInput"
+                placeholder="Cole aqui a mensagem que deseja analisar..."
+            ></textarea>
+
+            <button id="analyzeBtn" class="btn">
+                Analisar
+            </button>
+
+            <div id="result" class="result hidden">
+
+                <div class="score-box">
+                    <h3>Pontuação Obtida</h3>
+                    <div id="scoreValue">0</div>
+                </div>
+
+                <div class="risk-box">
+                    <h3>Nível de Risco</h3>
+                    <div id="riskLevel"></div>
+                </div>
+
+                <div class="signals-box">
+                    <h3>Sinais Encontrados</h3>
+                    <ul id="signalsList"></ul>
+                </div>
+
+                <div class="explanations-box">
+                    <h3>Explicação Detalhada</h3>
+                    <div id="explanations"></div>
+                </div>
+
+                <div class="recommendations-box">
+                    <h3>Recomendações</h3>
+
+                    <ul>
+                        <li>Não clique em links suspeitos.</li>
+                        <li>Não compartilhe senhas.</li>
+                        <li>Confirme informações por canais oficiais.</li>
+                        <li>Verifique a identidade do remetente.</li>
+                        <li>Pesquise antes de realizar pagamentos.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- EDUCACAO -->
+
+    <section id="educacao" class="education">
+
+        <div class="container">
+
+            <h2>Aprenda a se Proteger</h2>
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3>Golpe do PIX</h3>
+
+                    <p><strong>Como funciona:</strong></p>
+                    <p>
+                        Criminosos tentam convencer a vítima a realizar
+                        transferências alegando emergências ou cobranças falsas.
+                    </p>
+
+                    <p><strong>Sinais:</strong></p>
+                    <ul>
+                        <li>Pressão para pagamento rápido</li>
+                        <li>Pedidos inesperados</li>
+                        <li>Contato fora do comum</li>
+                    </ul>
+
+                    <p><strong>Como se proteger:</strong></p>
+                    <p>
+                        Confirme a informação diretamente com a pessoa ou instituição.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>WhatsApp Clonado</h3>
+
+                    <p><strong>Como funciona:</strong></p>
+                    <p>
+                        Golpistas obtêm acesso à conta e entram em contato com familiares.
+                    </p>
+
+                    <p><strong>Sinais:</strong></p>
+                    <ul>
+                        <li>Pedidos de dinheiro</li>
+                        <li>Mudança repentina de comportamento</li>
+                        <li>Mensagens incomuns</li>
+                    </ul>
+
+                    <p><strong>Como se proteger:</strong></p>
+                    <p>
+                        Ative a verificação em duas etapas.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Falso Banco</h3>
+
+                    <p><strong>Como funciona:</strong></p>
+                    <p>
+                        Mensagens fingem ser enviadas por instituições financeiras.
+                    </p>
+
+                    <p><strong>Sinais:</strong></p>
+                    <ul>
+                        <li>Ameaças de bloqueio</li>
+                        <li>Links suspeitos</li>
+                        <li>Pedidos de senha</li>
+                    </ul>
+
+                    <p><strong>Como se proteger:</strong></p>
+                    <p>
+                        Utilize apenas canais oficiais.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Falso Emprego</h3>
+
+                    <p><strong>Como funciona:</strong></p>
+                    <p>
+                        Promessas de contratação rápida mediante pagamento.
+                    </p>
+
+                    <p><strong>Sinais:</strong></p>
+                    <ul>
+                        <li>Ganhos irreais</li>
+                        <li>Cobranças antecipadas</li>
+                        <li>Pressão para responder</li>
+                    </ul>
+
+                    <p><strong>Como se proteger:</strong></p>
+                    <p>
+                        Pesquise a empresa antes de fornecer dados.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Falsa Entrega</h3>
+
+                    <p><strong>Como funciona:</strong></p>
+                    <p>
+                        Mensagens informam problemas em encomendas inexistentes.
+                    </p>
+
+                    <p><strong>Sinais:</strong></p>
+                    <ul>
+                        <li>Taxas inesperadas</li>
+                        <li>Links desconhecidos</li>
+                    </ul>
+
+                    <p><strong>Como se proteger:</strong></p>
+                    <p>
+                        Acesse diretamente o site da transportadora.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Falso Suporte Técnico</h3>
+
+                    <p><strong>Como funciona:</strong></p>
+                    <p>
+                        Criminosos fingem ser funcionários de empresas conhecidas.
+                    </p>
+
+                    <p><strong>Sinais:</strong></p>
+                    <ul>
+                        <li>Pedido de acesso remoto</li>
+                        <li>Urgência</li>
+                        <li>Solicitação de códigos</li>
+                    </ul>
+
+                    <p><strong>Como se proteger:</strong></p>
+                    <p>
+                        Nunca permita acesso remoto sem verificar a identidade.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SOBRE -->
+
+    <section id="sobre" class="about">
+
+        <div class="container">
+
+            <h2>Sobre o Guardião Digital</h2>
+
+            <p>
+                O Guardião Digital é uma plataforma educativa criada para auxiliar
+                usuários na identificação de possíveis golpes digitais através da
+                análise de mensagens suspeitas e da explicação clara dos sinais encontrados.
+            </p>
+
+            <p>
+                O projeto não substitui sistemas profissionais de segurança,
+                mas atua como ferramenta de conscientização e aprendizado,
+                incentivando hábitos mais seguros no ambiente digital.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="container">
+
+            <p>
+                Guardião Digital © 2026 — by Kauã Lima
+            </p>
+
+            <p>
+                Projeto educacional voltado à conscientização sobre segurança digital.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
