@@ -1,2 +1,2 @@
 # kauaguardiaodigital
-Site voltado para conscientização de golés
+Site voltado para conscientização de golpes.
