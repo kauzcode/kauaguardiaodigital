@@ -1,12 +1,3 @@
-/* =========================
-   GUARDIÃO DIGITAL
-   SCRIPT.JS
-========================= */
-
-/* =========================
-   DICAS DE SEGURANÇA
-========================= */
-
 const securityTips = [
     "Nunca compartilhe códigos de verificação recebidos por SMS.",
     "Bancos não solicitam senha completa por telefone ou WhatsApp.",
@@ -23,404 +14,175 @@ const securityTips = [
 const tipElement = document.getElementById("securityTip");
 
 if (tipElement) {
-    const randomTip =
-        securityTips[Math.floor(Math.random() * securityTips.length)];
-
-    tipElement.textContent = randomTip;
+    const index = Math.floor(Math.random() * securityTips.length);
+    tipElement.textContent = securityTips[index];
 }
-
-/* =========================
-   ELEMENTOS
-========================= */
 
 const analyzeBtn = document.getElementById("analyzeBtn");
 const messageInput = document.getElementById("messageInput");
-
 const result = document.getElementById("result");
-
 const scoreValue = document.getElementById("scoreValue");
 const riskLevel = document.getElementById("riskLevel");
-
 const signalsList = document.getElementById("signalsList");
 const explanations = document.getElementById("explanations");
-
-/* =========================
-   REGRAS
-========================= */
 
 const categories = [
     {
         name: "Urgência",
         score: 15,
-        explanation:
-            "Mensagens fraudulentas costumam criar sensação de urgência para incentivar decisões rápidas sem tempo para verificação.",
-
+        explanation: "Mensagens falsas costumam usar pressa para fazer a pessoa agir sem pensar muito.",
         keywords: [
-            "urgente",
-            "imediatamente",
-            "agora mesmo",
-            "última chance",
-            "ultimo aviso",
-            "último aviso",
-            "responda agora",
-            "ação necessária",
-            "acao necessaria",
-            "prazo final",
-            "não perca",
-            "nao perca",
-            "evite bloqueio",
-            "evite suspensão",
-            "evite suspensao",
-            "regularize agora",
-            "confirme imediatamente",
-            "clique agora"
+            "urgente", "imediatamente", "agora mesmo", "última chance", "ultimo aviso",
+            "último aviso", "responda agora", "ação necessária", "acao necessaria",
+            "prazo final", "não perca", "nao perca", "evite bloqueio",
+            "evite suspensão", "evite suspensao", "regularize agora",
+            "confirme imediatamente", "clique agora"
         ]
     },
-
     {
         name: "Ameaças",
         score: 20,
-        explanation:
-            "Golpistas frequentemente utilizam ameaças para provocar medo e reduzir a capacidade crítica da vítima.",
-
+        explanation: "Ameaças de bloqueio, multa ou suspensão são usadas para assustar e acelerar a resposta.",
         keywords: [
-            "conta bloqueada",
-            "conta suspensa",
-            "cpf irregular",
-            "processo judicial",
-            "multa pendente",
-            "acesso suspenso",
-            "restrição no cpf",
-            "restricao no cpf",
-            "pendência financeira",
-            "pendencia financeira",
-            "cancelamento automático",
-            "cancelamento automatico",
-            "problema na conta",
-            "dados comprometidos"
+            "conta bloqueada", "conta suspensa", "cpf irregular", "processo judicial",
+            "multa pendente", "acesso suspenso", "restrição no cpf", "restricao no cpf",
+            "pendência financeira", "pendencia financeira", "cancelamento automático",
+            "cancelamento automatico", "problema na conta", "dados comprometidos"
         ]
     },
-
     {
-        name: "Solicitação de Dados",
+        name: "Pedido de dados",
         score: 25,
-        explanation:
-            "Empresas legítimas raramente solicitam senhas ou informações sensíveis por mensagens.",
-
+        explanation: "Senha, token, código de verificação e documentos pessoais não devem ser enviados por mensagem.",
         keywords: [
-            "informe sua senha",
-            "confirme sua senha",
-            "atualize seus dados",
-            "confirme seus dados",
-            "envie seu cpf",
-            "envie seu rg",
-            "código de verificação",
-            "codigo de verificacao",
-            "token de acesso",
-            "dados bancários",
-            "dados bancarios",
-            "dados pessoais"
+            "informe sua senha", "confirme sua senha", "atualize seus dados",
+            "confirme seus dados", "envie seu cpf", "envie seu rg",
+            "código de verificação", "codigo de verificacao", "token de acesso",
+            "dados bancários", "dados bancarios", "dados pessoais"
         ]
     },
-
     {
         name: "PIX",
         score: 20,
-        explanation:
-            "Transferências instantâneas são frequentemente utilizadas por golpistas devido à dificuldade de recuperação dos valores.",
-
+        explanation: "Pagamentos por PIX são rápidos e, em muitos casos, difíceis de recuperar depois do envio.",
         keywords: [
-            "pix",
-            "chave pix",
-            "transferência pix",
-            "transferencia pix",
-            "estorno pix",
-            "pagamento via pix",
-            "pagamento pendente",
-            "envie o comprovante",
-            "faça a transferência",
-            "faca a transferencia"
+            "pix", "chave pix", "transferência pix", "transferencia pix", "estorno pix",
+            "pagamento via pix", "pagamento pendente", "envie o comprovante",
+            "faça a transferência", "faca a transferencia"
         ]
     },
-
     {
-        name: "Promessas Exageradas",
+        name: "Promessa exagerada",
         score: 15,
-        explanation:
-            "Ofertas muito vantajosas ou premiações inesperadas devem ser verificadas cuidadosamente.",
-
+        explanation: "Prêmios, sorteios e dinheiro fácil sem motivo claro merecem verificação antes de qualquer ação.",
         keywords: [
-            "você ganhou",
-            "voce ganhou",
-            "foi sorteado",
-            "prêmio garantido",
-            "premio garantido",
-            "recompensa exclusiva",
-            "dinheiro fácil",
-            "dinheiro facil",
-            "renda garantida",
-            "bônus especial",
-            "bonus especial",
-            "saque disponível",
-            "saque disponivel",
-            "liberação imediata",
+            "você ganhou", "voce ganhou", "foi sorteado", "prêmio garantido",
+            "premio garantido", "recompensa exclusiva", "dinheiro fácil",
+            "dinheiro facil", "renda garantida", "bônus especial", "bonus especial",
+            "saque disponível", "saque disponivel", "liberação imediata",
             "liberacao imediata"
         ]
     }
 ];
 
-/* =========================
-   DETECÇÃO DE LINKS
-========================= */
-
-function containsSuspiciousLink(text) {
-
-    const patterns = [
-        "http://",
-        "https://",
-        "bit.ly",
-        "tinyurl",
-        "t.co",
-        "goo.gl",
-        "rebrand.ly"
-    ];
-
-    return patterns.some(pattern =>
-        text.includes(pattern)
-    );
+function hasLink(text) {
+    const links = ["http://", "https://", "bit.ly", "tinyurl", "t.co", "goo.gl", "rebrand.ly"];
+    return links.some(item => text.includes(item));
 }
 
-/* =========================
-   CLASSIFICAÇÃO
-========================= */
-
 function getRisk(score) {
-
     if (score <= 30) {
         return {
-            text:
-                "🟢 Baixo Risco — Mensagem com poucos sinais normalmente associados a golpes.",
-            className:
-                "low-risk"
+            text: "🟢 Baixo Risco — poucos sinais comuns de golpe foram encontrados.",
+            className: "low-risk"
         };
     }
 
     if (score <= 60) {
         return {
-            text:
-                "🟡 Atenção — A mensagem apresenta alguns elementos frequentemente utilizados em tentativas de fraude.",
-            className:
-                "medium-risk"
+            text: "🟡 Atenção — a mensagem tem alguns pontos que merecem cuidado.",
+            className: "medium-risk"
         };
     }
 
     return {
-        text:
-            "🔴 Alto Risco — A mensagem contém diversos padrões comuns em golpes digitais e merece verificação cuidadosa.",
-        className:
-            "high-risk"
-        };
+        text: "🔴 Alto Risco — há vários sinais comuns em tentativas de golpe.",
+        className: "high-risk"
+    };
 }
 
-/* =========================
-   ANALISAR
-========================= */
-
 analyzeBtn.addEventListener("click", () => {
-
-    const text =
-        messageInput.value
-            .toLowerCase()
-            .trim();
+    const text = messageInput.value.toLowerCase().trim();
 
     if (!text) {
-
-        alert(
-            "Cole uma mensagem para realizar a análise."
-        );
-
+        alert("Campo vazio.");
         return;
     }
 
-    let score = 0;
-
-    let foundSignals = [];
-
-    let foundExplanations = [];
-
-    /* =========================
-       CATEGORIAS
-    ========================= */
+    let score = 0, foundSignals = [], foundExplanations = [];
 
     categories.forEach(category => {
-
-        const found = category.keywords.some(keyword =>
-            text.includes(keyword)
-        );
+        const found = category.keywords.some(keyword => text.includes(keyword));
 
         if (found) {
-
             score += category.score;
-
-            foundSignals.push(
-                `${category.name} (+${category.score})`
-            );
-
-            foundExplanations.push(
-                category.explanation
-            );
+            foundSignals.push(`${category.name} (+${category.score})`);
+            foundExplanations.push(category.explanation);
         }
     });
 
-    /* =========================
-       LINKS
-    ========================= */
-
-    if (containsSuspiciousLink(text)) {
-
+    if (hasLink(text)) {
         score += 15;
-
-        foundSignals.push(
-            "Links ou encurtadores (+15)"
-        );
-
-        foundExplanations.push(
-            "Links podem direcionar usuários para páginas falsas que imitam instituições legítimas."
-        );
+        foundSignals.push("Link ou encurtador (+15)");
+        foundExplanations.push("Links em mensagens podem levar para páginas falsas parecidas com sites conhecidos.");
     }
-
-    /* =========================
-       RESULTADO
-    ========================= */
 
     const risk = getRisk(score);
 
     scoreValue.textContent = score;
-
-    riskLevel.innerHTML = `
-        <div class="${risk.className}">
-            ${risk.text}
-        </div>
-    `;
-
-    /* =========================
-       SINAIS
-    ========================= */
+    riskLevel.innerHTML = `<div class="${risk.className}">${risk.text}</div>`;
 
     signalsList.innerHTML = "";
 
     if (foundSignals.length === 0) {
-
-        signalsList.innerHTML =
-            "<li>Nenhum padrão de risco identificado pelas regras atuais.</li>";
-
+        signalsList.innerHTML = "<li>Nenhum sinal cadastrado foi encontrado nessa mensagem.</li>";
     } else {
-
         foundSignals.forEach(signal => {
-
-            const li =
-                document.createElement("li");
-
-            li.textContent = signal;
-
-            signalsList.appendChild(li);
+            const item = document.createElement("li");
+            item.textContent = signal;
+            signalsList.appendChild(item);
         });
     }
-
-    /* =========================
-       EXPLICAÇÕES
-    ========================= */
 
     explanations.innerHTML = "";
 
     if (foundExplanations.length === 0) {
-
         explanations.innerHTML = `
-            <p>
-                A mensagem não apresentou padrões previamente
-                cadastrados no sistema.
-            </p>
-
-            <p>
-                Isso não garante que a mensagem seja legítima.
-                Continue verificando remetentes, links e pedidos
-                de informações pessoais.
-            </p>
+            <p>Nenhum padrão de risco foi encontrado pelas regras atuais.</p>
+            <p>Mesmo assim, confira remetente, links, pedidos de dados e qualquer cobrança inesperada.</p>
         `;
-
     } else {
-
-        foundExplanations.forEach(explanation => {
-
-            const paragraph =
-                document.createElement("p");
-
-            paragraph.textContent =
-                explanation;
-
-            paragraph.style.marginBottom =
-                "15px";
-
-            explanations.appendChild(paragraph);
+        foundExplanations.forEach(text => {
+            const p = document.createElement("p");
+            p.textContent = text;
+            p.style.marginBottom = "15px";
+            explanations.appendChild(p);
         });
     }
 
-    /* =========================
-       MOSTRAR RESULTADO
-    ========================= */
-
     result.classList.remove("hidden");
-
-    result.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    result.scrollIntoView({ behavior: "smooth", block: "start" });
 });
-
-/* =========================
-   ENTER + CTRL
-========================= */
 
 messageInput.addEventListener("keydown", event => {
-
-    if (
-        event.ctrlKey &&
-        event.key === "Enter"
-    ) {
-
-        analyzeBtn.click();
-    }
+    if (event.ctrlKey && event.key === "Enter") analyzeBtn.click();
 });
 
-/* =========================
-   NAVEGAÇÃO SUAVE EXTRA
-========================= */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
 
-document
-    .querySelectorAll('a[href^="#"]')
-    .forEach(anchor => {
-
-        anchor.addEventListener(
-            "click",
-            function (e) {
-
-                e.preventDefault();
-
-                const target =
-                    document.querySelector(
-                        this.getAttribute("href")
-                    );
-
-                if (target) {
-
-                    target.scrollIntoView({
-                        behavior: "smooth"
-                    });
-                }
-            }
-        );
+        const area = document.querySelector(link.getAttribute("href"));
+        if (area) area.scrollIntoView({ behavior: "smooth" });
     });
-
-/* =========================
-   FIM
-========================= */
+});
