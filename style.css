@@ -1,11 +1,11 @@
 :root {
-    --azulGuardiao: #0b4ea2;
-    --azul2: #08346f;
-    --fundo: #f4f7fb;
-    --card: #ffffff;
-    --texto: #111827;
-    --cinzaTexto: #667085;
-    --borda: #d6deea;
+    --azulGuardiao: #58a6ff;
+    --azul2: #1f6feb;
+    --fundo: #0d1117;
+    --card: #161b22;
+    --texto: #e6edf3;
+    --cinzaTexto: #8b949e;
+    --borda: #30363d;
 }
 
 * { box-sizing: border-box; }
@@ -16,14 +16,14 @@ body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
     color: var(--texto);
-    line-height: 1.58;
+    line-height: 1.55;
     background:
-        radial-gradient(circle at top left, rgba(11, 78, 162, .14), transparent 330px),
-        linear-gradient(180deg, #ffffff 0%, #f4f7fb 42%, #eef3f8 100%);
+        radial-gradient(circle at top right, rgba(31, 111, 235, .25), transparent 320px),
+        linear-gradient(180deg, #0d1117 0%, #101620 45%, #0d1117 100%);
 }
 
 .container {
-    width: min(1080px, 92%);
+    width: min(1100px, 92%);
     margin: auto;
 }
 
@@ -31,8 +31,9 @@ body {
     position: sticky;
     top: 0;
     z-index: 20;
-    background: rgba(255,255,255,.96);
+    background: rgba(13, 17, 23, .92);
     border-bottom: 1px solid var(--borda);
+    backdrop-filter: blur(10px);
 }
 
 .header .container {
@@ -43,9 +44,20 @@ body {
 }
 
 .logo {
-    color: var(--azulGuardiao);
+    color: var(--texto);
     font-weight: 800;
     font-size: 1.05rem;
+}
+
+.logo::before {
+    content: "";
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 9px;
+    border-radius: 50%;
+    background: var(--azulGuardiao);
+    box-shadow: 0 0 12px rgba(88, 166, 255, .7);
 }
 
 .menu {
@@ -57,46 +69,48 @@ body {
 }
 
 .menu a {
-    color: #374151;
+    color: var(--cinzaTexto);
     text-decoration: none;
     font-size: .92rem;
     font-weight: 600;
 }
 
 .menu a:hover {
-    color: var(--azulGuardiao);
+    color: var(--texto);
 }
 
 .hero {
-    padding: 52px 0 26px;
+    padding: 58px 0 26px;
 }
 
 .hero-content {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
 }
 
 .hero-text {
-    max-width: 760px;
+    max-width: 780px;
 }
 
 .hero h1 {
     margin: 0 0 10px;
-    font-size: clamp(2rem, 5vw, 3.15rem);
-    line-height: 1.04;
-    letter-spacing: -1.2px;
+    font-size: clamp(2.15rem, 5vw, 3.4rem);
+    line-height: 1.03;
+    letter-spacing: -1.4px;
 }
 
 .hero h2 {
+    max-width: 760px;
     margin: 0 0 14px;
-    max-width: 740px;
-    color: #1f2937;
+    color: #c9d1d9;
     font-size: 1.18rem;
     font-weight: 650;
 }
 
 .hero p {
-    margin: 0 0 22px;
     max-width: 720px;
+    margin: 0 0 22px;
     color: var(--cinzaTexto);
 }
 
@@ -106,13 +120,13 @@ body {
 
 .btn {
     display: inline-block;
-    border: 0;
+    border: 1px solid #388bfd;
     border-radius: 8px;
-    background: var(--azulGuardiao);
-    color: #fff;
+    background: #1f6feb;
+    color: white;
     cursor: pointer;
     font: inherit;
-    font-weight: 700;
+    font-weight: 750;
     min-height: 44px;
     padding: 11px 20px;
     text-align: center;
@@ -120,7 +134,7 @@ body {
 }
 
 .btn:hover {
-    background: var(--azul2);
+    background: #388bfd;
 }
 
 .tip-section {
@@ -128,7 +142,7 @@ body {
 }
 
 .tip-card {
-    background: rgba(255,255,255,.84);
+    background: rgba(22, 27, 34, .92);
     border: 1px solid var(--borda);
     border-left: 4px solid var(--azulGuardiao);
     border-radius: 10px;
@@ -137,6 +151,7 @@ body {
 
 .tip-card h2 {
     margin: 0 0 5px;
+    color: var(--texto);
     font-size: 1rem;
 }
 
@@ -150,15 +165,16 @@ body {
 }
 
 .analysis-section .container {
-    background: var(--card);
+    background: rgba(22, 27, 34, .96);
     border: 1px solid var(--borda);
     border-radius: 14px;
     padding: 26px;
-    box-shadow: 0 18px 44px rgba(16, 24, 40, .07);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
 }
 
 .analysis-section h2 {
     margin: 0 0 8px;
+    color: var(--texto);
     font-size: 1.72rem;
     letter-spacing: -.4px;
 }
@@ -172,10 +188,10 @@ body {
 .privacy-notice {
     margin-bottom: 15px;
     padding: 12px 14px;
-    border: 1px solid #bfd7ff;
+    border: 1px solid #1f6feb;
     border-radius: 9px;
-    background: #f1f7ff;
-    color: #174ea6;
+    background: rgba(31, 111, 235, .12);
+    color: #9ecbff;
 }
 
 textarea {
@@ -186,13 +202,17 @@ textarea {
     resize: vertical;
     border: 1px solid var(--borda);
     border-radius: 10px;
-    background: #fbfcfe;
+    background: #0d1117;
     color: var(--texto);
     font: inherit;
 }
 
+textarea::placeholder {
+    color: #6e7681;
+}
+
 textarea:focus {
-    outline: 3px solid rgba(11, 78, 162, .16);
+    outline: 3px solid rgba(88, 166, 255, .18);
     border-color: var(--azulGuardiao);
 }
 
@@ -219,7 +239,7 @@ textarea:focus {
     padding: 19px;
     border: 1px solid var(--borda);
     border-radius: 10px;
-    background: #fff;
+    background: #0d1117;
 }
 
 .risk-box {
@@ -233,7 +253,7 @@ textarea:focus {
 .explanations-box h3,
 .recommendations-box h3 {
     margin: 0 0 9px;
-    color: #374151;
+    color: #c9d1d9;
     font-size: .98rem;
 }
 
@@ -253,18 +273,21 @@ textarea:focus {
 }
 
 .low-risk {
-    background: #e7f8ec;
-    color: #166534;
+    background: rgba(46, 160, 67, .18);
+    color: #7ee787;
+    border: 1px solid rgba(46, 160, 67, .35);
 }
 
 .medium-risk {
-    background: #fff2c6;
-    color: #7a4b00;
+    background: rgba(187, 128, 9, .18);
+    color: #f2cc60;
+    border: 1px solid rgba(187, 128, 9, .35);
 }
 
 .high-risk {
-    background: #ffe1e1;
-    color: #8f1d1d;
+    background: rgba(248, 81, 73, .18);
+    color: #ff7b72;
+    border: 1px solid rgba(248, 81, 73, .38);
 }
 
 #signalsList,
@@ -277,6 +300,7 @@ textarea:focus {
 .recommendations-box li,
 .card li {
     margin-bottom: 6px;
+    color: #c9d1d9;
 }
 
 #detectedTerms {
@@ -287,10 +311,10 @@ textarea:focus {
 
 .detected-tag {
     padding: 6px 10px;
-    border: 1px solid #c6d8f5;
+    border: 1px solid rgba(88, 166, 255, .4);
     border-radius: 999px;
-    background: #edf4ff;
-    color: #174ea6;
+    background: rgba(88, 166, 255, .12);
+    color: #9ecbff;
     font-size: .9rem;
     font-weight: 700;
 }
@@ -302,6 +326,7 @@ textarea:focus {
 .education h2,
 .about h2 {
     margin: 0 0 24px;
+    color: var(--texto);
     font-size: 1.72rem;
     letter-spacing: -.3px;
 }
@@ -316,7 +341,7 @@ textarea:focus {
     padding: 19px;
     border: 1px solid var(--borda);
     border-radius: 10px;
-    background: #fff;
+    background: rgba(22, 27, 34, .94);
 }
 
 .card h3 {
@@ -327,16 +352,16 @@ textarea:focus {
 
 .card p {
     margin: 0 0 9px;
-    color: #344054;
+    color: #c9d1d9;
 }
 
 .card strong {
-    color: #111827;
+    color: var(--texto);
 }
 
 .about {
     padding: 44px 0;
-    background: rgba(255,255,255,.78);
+    background: rgba(22, 27, 34, .62);
     border-top: 1px solid var(--borda);
     border-bottom: 1px solid var(--borda);
 }
@@ -350,7 +375,7 @@ textarea:focus {
 footer {
     padding: 24px 0;
     text-align: center;
-    color: #475467;
+    color: var(--cinzaTexto);
 }
 
 footer p {
@@ -358,7 +383,7 @@ footer p {
 }
 
 footer p:first-child {
-    color: #111827;
+    color: var(--texto);
     font-weight: 800;
 }
 
