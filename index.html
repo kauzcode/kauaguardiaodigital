@@ -6,7 +6,6 @@
     <title>Guardião Digital</title>
     <meta name="description" content="Site educativo sobre prevenção de golpes digitais.">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
 </head>
 
 <body>
@@ -29,7 +28,6 @@
         <div class="container hero-content">
             <div class="hero-text">
                 <h1>Guardião Digital</h1>
-
                 <h2>Identifique sinais de possíveis golpes digitais e navegue com mais cuidado.</h2>
 
                 <p>
@@ -44,8 +42,8 @@
             <div class="hero-card">
                 <h3>Antes de agir, confira os sinais</h3>
                 <p>
-                    Uma mensagem suspeita quase sempre tenta criar pressa, medo ou curiosidade.
-                    Ler com calma já evita muita dor de cabeça.
+                    Algumas mensagens merecem uma segunda leitura. Principalmente quando envolvem
+                    dinheiro, dados pessoais ou pedidos inesperados.
                 </p>
             </div>
         </div>
@@ -78,17 +76,19 @@
             <button id="analyzeBtn" class="btn">Analisar</button>
 
             <div id="result" class="result hidden">
-            <div class="score-box">
-    <h3>Pontuação Obtida</h3>
-    <div id="scoreValue">0</div>
-</div>
- <div class="risk-meter-box">
-    <h3>Indicador de Risco</h3>
-    <div class="risk-meter">
-        <div id="riskBar"></div>
-    </div>
-    <p id="confidenceText">Confiança da análise: 0%</p>
-</div>
+                <div class="score-box">
+                    <h3>Pontuação Obtida</h3>
+                    <div id="scoreValue">0</div>
+                </div>
+
+                <div class="risk-meter-box">
+                    <h3>Indicador de Risco</h3>
+                    <div class="risk-meter">
+                        <div id="riskBar"></div>
+                    </div>
+                    <p id="confidenceText">Confiança da análise: 0%</p>
+                </div>
+
                 <div class="risk-box">
                     <h3>Nível de Risco</h3>
                     <div id="riskLevel"></div>
@@ -98,24 +98,25 @@
                     <h3>Sinais Encontrados</h3>
                     <ul id="signalsList"></ul>
                 </div>
-                    <div class="detected-box">
-    <h3>Termos detectados</h3>
-    <div id="detectedTerms"></div>
-</div>
+
+                <div class="detected-box">
+                    <h3>Termos detectados</h3>
+                    <div id="detectedTerms"></div>
+                </div>
 
                 <div class="explanations-box">
-                    <h3>Por que merece atenção?</h3>
+                    <h3>Fatores identificados</h3>
                     <div id="explanations"></div>
                 </div>
 
                 <div class="recommendations-box">
                     <h3>O que fazer agora</h3>
                     <ul>
-                        <li>Não clique em links recebidos de surpresa.</li>
-                        <li>Não envie senha, código de SMS, RG, CPF ou dados bancários.</li>
-                        <li>Confirme pedidos de dinheiro falando com a pessoa por outro canal.</li>
-                        <li>Abra o site oficial manualmente, sem usar o link da mensagem.</li>
-                        <li>Na dúvida, pare e peça ajuda antes de responder.</li>
+                        <li>Link recebido por mensagem nem sempre leva ao endereço verdadeiro.</li>
+                        <li>Senha, token, código de SMS e dados bancários não devem ser compartilhados.</li>
+                        <li>Pedido de PIX ou transferência deve ser confirmado por outro meio de contato.</li>
+                        <li>Mensagens que pressionam por uma resposta imediata exigem atenção redobrada.</li>
+                        <li>Nem toda mensagem suspeita é golpe, mas toda mensagem suspeita merece verificação.</li>
                     </ul>
                 </div>
             </div>
@@ -239,13 +240,13 @@
             <h2>Sobre o projeto</h2>
 
             <p>
-                O Guardião Digital foi criado para ajudar pessoas a olharem mensagens suspeitas com mais atenção.
-                Ele não decide por você, mas mostra sinais que costumam aparecer em tentativas de golpe.
+                O Guardião Digital apresenta sinais frequentemente encontrados em tentativas de fraude digital.
+                A análise é feita localmente e busca destacar elementos que merecem atenção antes de qualquer ação.
             </p>
 
             <p>
-                A ideia é simples: colar a mensagem, ver os pontos de alerta e aprender o motivo de cada aviso.
-                Em caso de dúvida, o mais seguro é confirmar tudo pelos canais oficiais.
+                O objetivo é auxiliar usuários na identificação de padrões comuns em mensagens suspeitas,
+                oferecendo informações claras sobre os fatores que contribuíram para o resultado exibido.
             </p>
         </div>
     </section>
