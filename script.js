@@ -18,8 +18,6 @@ const campoPontuacao = document.getElementById("scoreValue");
 const campoRisco = document.getElementById("riskLevel");
 const listaSinais = document.getElementById("signalsList");
 const blocoExplicacao = document.getElementById("explanations");
-const barraRisco = document.getElementById("riskBar");
-const textoConfianca = document.getElementById("confidenceText");
 const termosDetectados = document.getElementById("detectedTerms");
 
 const termosGolpe = {
@@ -118,22 +116,38 @@ function temValorEmDinheiro(mensagem) {
 
 function mensagemTemLink(mensagem) {
     return mensagem.includes("http://") ||
-           mensagem.includes("https://") ||
-           ["bit.ly", "tinyurl", "t.co", "goo.gl", "rebrand.ly", ".click", ".top"].some(x => mensagem.includes(x));
+        mensagem.includes("https://") ||
+        ["bit.ly", "tinyurl", "t.co", "goo.gl", "rebrand.ly", ".click", ".top"].some(x => mensagem.includes(x));
 }
 
 function pareceGritado(original) {
     const letras = original.replace(/[^a-zA-ZÀ-ÿ]/g, "");
     if (letras.length < 12) return false;
+
     const maiusculas = letras.replace(/[^A-ZÀ-Ý]/g, "");
     return maiusculas.length / letras.length >= 0.75;
 }
 
 function nivel(pontos) {
-    if (pontos <= 20) return { classe: "low-risk", mensagem: "🟢 Baixo Risco — poucos sinais comuns de golpe foram encontrados.", cor: "#22c55e" };
-    if (pontos <= 49) return { classe: "medium-risk", mensagem: "🟡 Atenção — há sinais que precisam ser verificados.", cor: "#eab308" };
-    if (pontos <= 79) return { classe: "medium-risk", mensagem: "🟠 Suspeito — a mensagem junta elementos comuns em golpes.", cor: "#f97316" };
-    return { classe: "high-risk", mensagem: "🔴 Alto Risco — vários sinais fortes apareceram na análise.", cor: "#ef4444" };
+    if (pontos <= 20) return {
+        classe: "low-risk",
+        mensagem: "🟢 Baixo Risco — poucos sinais comuns de golpe foram encontrados."
+    };
+
+    if (pontos <= 49) return {
+        classe: "medium-risk",
+        mensagem: "🟡 Atenção — há sinais que precisam ser verificados."
+    };
+
+    if (pontos <= 79) return {
+        classe: "medium-risk",
+        mensagem: "🟠 Suspeito — a mensagem junta elementos comuns em golpes."
+    };
+
+    return {
+        classe: "high-risk",
+        mensagem: "🔴 Alto Risco — vários sinais fortes apareceram na análise."
+    };
 }
 
 function add(lista, explicacoes, nome, pontos, texto) {
@@ -151,7 +165,9 @@ function analisarMensagemRecebida() {
     }
 
     let pontos = 0;
-    const sinais = [], explicacoes = [], detectados = [];
+    const sinais = [];
+    const explicacoes = [];
+    const detectados = [];
 
     Object.keys(termosGolpe).forEach(chave => {
         const regra = termosGolpe[chave];
@@ -213,18 +229,9 @@ function analisarMensagemRecebida() {
 
 function mostrarResultado(pontos, sinais, explicacoes, detectados) {
     const risco = nivel(pontos);
-    const largura = Math.min(pontos, 100);
-    const confianca = Math.min(95, Math.round(35 + pontos * 0.65));
 
     campoPontuacao.textContent = pontos;
     campoRisco.innerHTML = `<div class="${risco.classe}">${risco.mensagem}</div>`;
-
-    if (barraRisco) {
-        barraRisco.style.width = largura + "%";
-        barraRisco.style.background = risco.cor;
-    }
-
-    if (textoConfianca) textoConfianca.textContent = `Confiança da análise: ${confianca}%`;
 
     listaSinais.innerHTML = sinais.length
         ? sinais.map(s => `<li>${s}</li>`).join("")
@@ -236,6 +243,7 @@ function mostrarResultado(pontos, sinais, explicacoes, detectados) {
 
     if (termosDetectados) {
         const unicos = [...new Set(detectados)].slice(0, 18);
+
         termosDetectados.innerHTML = unicos.length
             ? unicos.map(t => `<span class="detected-tag">${t}</span>`).join("")
             : "<span class='detected-tag'>Nenhum termo específico</span>";
@@ -254,6 +262,7 @@ caixaMensagem.addEventListener("keydown", e => {
 document.querySelectorAll('a[href^="#"]').forEach(itemMenu => {
     itemMenu.addEventListener("click", e => {
         e.preventDefault();
+
         const destino = document.querySelector(itemMenu.getAttribute("href"));
         if (destino) destino.scrollIntoView({ behavior: "smooth" });
     });
