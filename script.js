@@ -1,188 +1,258 @@
-const securityTips = [
+const dicasDoRodape = [
     "Nunca compartilhe códigos de verificação recebidos por SMS.",
-    "Bancos não solicitam senha completa por telefone ou WhatsApp.",
-    "Desconfie de mensagens que exigem decisões imediatas.",
-    "Sempre confirme pedidos de dinheiro por outro canal.",
-    "Antes de clicar em um link, verifique cuidadosamente o endereço.",
-    "Não envie documentos pessoais sem confirmar a identidade do solicitante.",
-    "Golpistas costumam explorar medo, urgência ou curiosidade.",
-    "Desconfie de ofertas boas demais para serem verdade.",
-    "Mantenha a verificação em duas etapas ativada sempre que possível.",
-    "Nunca informe senhas por mensagens ou redes sociais."
+    "Banco não pede senha completa por WhatsApp.",
+    "Pedido de dinheiro com pressa precisa ser confirmado fora da conversa.",
+    "Antes de clicar, olhe o endereço do link com calma.",
+    "Se a mensagem parece boa demais, desconfie.",
+    "Código de login é pessoal. Não envie para ninguém.",
+    "Print da conversa ajuda caso você precise pedir orientação depois."
 ];
 
-const tipElement = document.getElementById("securityTip");
-
-if (tipElement) {
-    const index = Math.floor(Math.random() * securityTips.length);
-    tipElement.textContent = securityTips[index];
+const campoDica = document.getElementById("securityTip");
+if (campoDica) {
+    campoDica.textContent = dicasDoRodape[Math.floor(Math.random() * dicasDoRodape.length)];
 }
 
-const analyzeBtn = document.getElementById("analyzeBtn");
-const messageInput = document.getElementById("messageInput");
-const result = document.getElementById("result");
-const scoreValue = document.getElementById("scoreValue");
-const riskLevel = document.getElementById("riskLevel");
-const signalsList = document.getElementById("signalsList");
-const explanations = document.getElementById("explanations");
+const botaoAnalise = document.getElementById("analyzeBtn");
+const caixaMensagem = document.getElementById("messageInput");
+const areaResultado = document.getElementById("result");
+const campoPontuacao = document.getElementById("scoreValue");
+const campoRisco = document.getElementById("riskLevel");
+const listaSinais = document.getElementById("signalsList");
+const blocoExplicacao = document.getElementById("explanations");
 
-const categories = [
-    {
-        name: "Urgência",
-        score: 15,
-        explanation: "Mensagens falsas costumam usar pressa para fazer a pessoa agir sem pensar muito.",
-        keywords: [
-            "urgente", "imediatamente", "agora mesmo", "última chance", "ultimo aviso",
-            "último aviso", "responda agora", "ação necessária", "acao necessaria",
-            "prazo final", "não perca", "nao perca", "evite bloqueio",
-            "evite suspensão", "evite suspensao", "regularize agora",
-            "confirme imediatamente", "clique agora"
+const termosGolpe = {
+    pressa: {
+        peso: 15,
+        nome: "Pressa na mensagem",
+        texto: "A mensagem tenta fazer você agir rápido demais.",
+        palavras: [
+            "urgente", "imediatamente", "agora mesmo", "ultima chance", "última chance",
+            "ultimo aviso", "último aviso", "responda agora", "prazo final",
+            "clique agora", "regularize agora", "nao perca", "não perca"
         ]
     },
-    {
-        name: "Ameaças",
-        score: 20,
-        explanation: "Ameaças de bloqueio, multa ou suspensão são usadas para assustar e acelerar a resposta.",
-        keywords: [
+
+    medo: {
+        peso: 25,
+        nome: "Ameaça ou bloqueio",
+        texto: "Golpes costumam usar medo de bloqueio, multa ou problema na conta.",
+        palavras: [
             "conta bloqueada", "conta suspensa", "cpf irregular", "processo judicial",
-            "multa pendente", "acesso suspenso", "restrição no cpf", "restricao no cpf",
-            "pendência financeira", "pendencia financeira", "cancelamento automático",
-            "cancelamento automatico", "problema na conta", "dados comprometidos"
+            "multa pendente", "acesso suspenso", "restricao no cpf", "restrição no cpf",
+            "pendencia financeira", "pendência financeira", "dados comprometidos"
         ]
     },
-    {
-        name: "Pedido de dados",
-        score: 25,
-        explanation: "Senha, token, código de verificação e documentos pessoais não devem ser enviados por mensagem.",
-        keywords: [
+
+    documentos: {
+        peso: 35,
+        nome: "Pedido de dados sensíveis",
+        texto: "Senha, CPF, token e código de verificação não devem ser enviados por mensagem.",
+        palavras: [
             "informe sua senha", "confirme sua senha", "atualize seus dados",
-            "confirme seus dados", "envie seu cpf", "envie seu rg",
-            "código de verificação", "codigo de verificacao", "token de acesso",
-            "dados bancários", "dados bancarios", "dados pessoais"
+            "confirme seus dados", "envie seu cpf", "envie seu rg", "codigo de verificacao",
+            "código de verificação", "token de acesso", "dados bancarios",
+            "dados bancários", "dados pessoais"
         ]
     },
-    {
-        name: "PIX",
-        score: 20,
-        explanation: "Pagamentos por PIX são rápidos e, em muitos casos, difíceis de recuperar depois do envio.",
-        keywords: [
-            "pix", "chave pix", "transferência pix", "transferencia pix", "estorno pix",
+
+    dinheiroRapido: {
+        peso: 25,
+        nome: "PIX ou transferência",
+        texto: "Transferências rápidas aumentam o risco de prejuízo se a mensagem for falsa.",
+        palavras: [
+            "pix", "chave pix", "transferencia pix", "transferência pix", "estorno pix",
             "pagamento via pix", "pagamento pendente", "envie o comprovante",
-            "faça a transferência", "faca a transferencia"
+            "faca a transferencia", "faça a transferência"
         ]
     },
-    {
-        name: "Promessa exagerada",
-        score: 15,
-        explanation: "Prêmios, sorteios e dinheiro fácil sem motivo claro merecem verificação antes de qualquer ação.",
-        keywords: [
-            "você ganhou", "voce ganhou", "foi sorteado", "prêmio garantido",
-            "premio garantido", "recompensa exclusiva", "dinheiro fácil",
-            "dinheiro facil", "renda garantida", "bônus especial", "bonus especial",
-            "saque disponível", "saque disponivel", "liberação imediata",
-            "liberacao imediata"
+
+    premio: {
+        peso: 30,
+        nome: "Prêmio ou vantagem inesperada",
+        texto: "Promessa de prêmio, sorteio ou dinheiro sem contexto é sinal forte de alerta.",
+        palavras: [
+            "voce ganhou", "você ganhou", "ganhou", "sorteado", "foi sorteado",
+            "premio", "prêmio", "recompensa", "bonus", "bônus",
+            "dinheiro facil", "dinheiro fácil", "renda garantida",
+            "saque disponivel", "saque disponível", "liberacao imediata", "liberação imediata"
         ]
     }
-];
+};
 
-function hasLink(text) {
-    const links = ["http://", "https://", "bit.ly", "tinyurl", "t.co", "goo.gl", "rebrand.ly"];
-    return links.some(item => text.includes(item));
+function textoBaseadoNaMensagem(valor) {
+    return valor
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
 }
 
-function getRisk(score) {
-    if (score <= 30) {
+function temTermo(mensagem, grupo) {
+    return grupo.some(palavra => mensagem.includes(textoBaseadoNaMensagem(palavra)));
+}
+
+function mensagemTemLink(mensagem) {
+    const encurtadores = ["bit.ly", "tinyurl", "t.co", "goo.gl", "rebrand.ly", "encurtador.com"];
+    return mensagem.includes("http://") || mensagem.includes("https://") || encurtadores.some(link => mensagem.includes(link));
+}
+
+function temValorEmDinheiro(mensagem) {
+    return /r\$\s?\d+|\d+\s?(reais|real)|\d+\s?mil|\d+[.,]\d{2}/i.test(mensagem);
+}
+
+function pareceGritado(textoOriginal) {
+    const letras = textoOriginal.replace(/[^a-zA-ZÀ-ÿ]/g, "");
+    if (letras.length < 12) return false;
+
+    const maiusculas = letras.replace(/[^A-ZÀ-Ý]/g, "");
+    return maiusculas.length / letras.length >= 0.75;
+}
+
+function calcularNivel(pontos) {
+    if (pontos <= 20) {
         return {
-            text: "🟢 Baixo Risco — poucos sinais comuns de golpe foram encontrados.",
-            className: "low-risk"
+            classe: "low-risk",
+            mensagem: "🟢 Baixo Risco — poucos sinais comuns de golpe foram encontrados."
         };
     }
 
-    if (score <= 60) {
+    if (pontos <= 49) {
         return {
-            text: "🟡 Atenção — a mensagem tem alguns pontos que merecem cuidado.",
-            className: "medium-risk"
+            classe: "medium-risk",
+            mensagem: "🟡 Atenção — há sinais que precisam ser verificados."
+        };
+    }
+
+    if (pontos <= 79) {
+        return {
+            classe: "medium-risk",
+            mensagem: "🟠 Suspeito — a mensagem junta elementos comuns em golpes."
         };
     }
 
     return {
-        text: "🔴 Alto Risco — há vários sinais comuns em tentativas de golpe.",
-        className: "high-risk"
+        classe: "high-risk",
+        mensagem: "🔴 Alto Risco — vários sinais fortes apareceram na análise."
     };
 }
 
-analyzeBtn.addEventListener("click", () => {
-    const text = messageInput.value.toLowerCase().trim();
+function adicionarSinal(lista, explicacoes, nome, pontos, texto) {
+    lista.push(`${nome} (+${pontos})`);
+    explicacoes.push(texto);
+}
 
-    if (!text) {
+function analisarMensagemRecebida() {
+    const original = caixaMensagem.value.trim();
+    const mensagem = textoBaseadoNaMensagem(original);
+
+    if (!mensagem) {
         alert("Campo vazio.");
         return;
     }
 
-    let score = 0, foundSignals = [], foundExplanations = [];
+    let pontos = 0;
+    const sinais = [];
+    const explicacoes = [];
 
-    categories.forEach(category => {
-        const found = category.keywords.some(keyword => text.includes(keyword));
+    Object.keys(termosGolpe).forEach(chave => {
+        const regra = termosGolpe[chave];
 
-        if (found) {
-            score += category.score;
-            foundSignals.push(`${category.name} (+${category.score})`);
-            foundExplanations.push(category.explanation);
+        if (temTermo(mensagem, regra.palavras)) {
+            pontos += regra.peso;
+            adicionarSinal(sinais, explicacoes, regra.nome, regra.peso, regra.texto);
         }
     });
 
-    if (hasLink(text)) {
-        score += 15;
-        foundSignals.push("Link ou encurtador (+15)");
-        foundExplanations.push("Links em mensagens podem levar para páginas falsas parecidas com sites conhecidos.");
+    const achouLink = mensagemTemLink(mensagem);
+    const achouValor = temValorEmDinheiro(mensagem);
+    const achouPremio = temTermo(mensagem, termosGolpe.premio.palavras);
+    const achouPix = temTermo(mensagem, termosGolpe.dinheiroRapido.palavras);
+    const achouDado = temTermo(mensagem, ["cpf", "senha", "token", "codigo", "código"]);
+
+    if (achouLink) {
+        pontos += 20;
+        adicionarSinal(sinais, explicacoes, "Link na mensagem", 20, "Links recebidos por mensagem podem levar para páginas falsas.");
     }
 
-    const risk = getRisk(score);
+    if (achouValor) {
+        pontos += 15;
+        adicionarSinal(sinais, explicacoes, "Valor em dinheiro", 15, "Valores em dinheiro aumentam o risco quando aparecem junto de prêmio, cobrança ou transferência.");
+    }
 
-    scoreValue.textContent = score;
-    riskLevel.innerHTML = `<div class="${risk.className}">${risk.text}</div>`;
+    if (pareceGritado(original)) {
+        pontos += 10;
+        adicionarSinal(sinais, explicacoes, "Texto em caixa alta", 10, "Texto em caixa alta costuma ser usado para chamar atenção e pressionar resposta.");
+    }
 
-    signalsList.innerHTML = "";
+    if (achouPremio && achouValor) {
+        pontos += 25;
+        adicionarSinal(sinais, explicacoes, "Prêmio envolvendo dinheiro", 25, "Promessa de dinheiro inesperado é um padrão bastante comum em golpe.");
+    }
 
-    if (foundSignals.length === 0) {
-        signalsList.innerHTML = "<li>Nenhum sinal cadastrado foi encontrado nessa mensagem.</li>";
+    if (achouPremio && achouLink) {
+        pontos += 25;
+        adicionarSinal(sinais, explicacoes, "Prêmio com link", 25, "Premiação acompanhada de link externo merece verificação cuidadosa.");
+    }
+
+    if (achouDado && achouLink) {
+        pontos += 25;
+        adicionarSinal(sinais, explicacoes, "Dado sensível com link", 25, "Pedido de dado pessoal junto com link é um sinal forte de risco.");
+    }
+
+    if (achouPix && temTermo(mensagem, ["agora", "urgente", "rapido", "rápido", "imediatamente"])) {
+        pontos += 20;
+        adicionarSinal(sinais, explicacoes, "Pagamento com pressa", 20, "Pressa para pagamento é comum em fraude financeira.");
+    }
+
+    mostrarResultado(pontos, sinais, explicacoes);
+}
+
+function mostrarResultado(pontos, sinais, explicacoes) {
+    const risco = calcularNivel(pontos);
+
+    campoPontuacao.textContent = pontos;
+    campoRisco.innerHTML = `<div class="${risco.classe}">${risco.mensagem}</div>`;
+
+    listaSinais.innerHTML = "";
+    if (sinais.length === 0) {
+        listaSinais.innerHTML = "<li>Nenhum sinal cadastrado foi encontrado nessa mensagem.</li>";
     } else {
-        foundSignals.forEach(signal => {
+        sinais.forEach(sinal => {
             const item = document.createElement("li");
-            item.textContent = signal;
-            signalsList.appendChild(item);
+            item.textContent = sinal;
+            listaSinais.appendChild(item);
         });
     }
 
-    explanations.innerHTML = "";
-
-    if (foundExplanations.length === 0) {
-        explanations.innerHTML = `
+    blocoExplicacao.innerHTML = "";
+    if (explicacoes.length === 0) {
+        blocoExplicacao.innerHTML = `
             <p>Nenhum padrão de risco foi encontrado pelas regras atuais.</p>
             <p>Mesmo assim, confira remetente, links, pedidos de dados e qualquer cobrança inesperada.</p>
         `;
     } else {
-        foundExplanations.forEach(text => {
+        explicacoes.forEach(frase => {
             const p = document.createElement("p");
-            p.textContent = text;
+            p.textContent = frase;
             p.style.marginBottom = "15px";
-            explanations.appendChild(p);
+            blocoExplicacao.appendChild(p);
         });
     }
 
-    result.classList.remove("hidden");
-    result.scrollIntoView({ behavior: "smooth", block: "start" });
+    areaResultado.classList.remove("hidden");
+    areaResultado.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+botaoAnalise.addEventListener("click", analisarMensagemRecebida);
+
+caixaMensagem.addEventListener("keydown", e => {
+    if (e.ctrlKey && e.key === "Enter") analisarMensagemRecebida();
 });
 
-messageInput.addEventListener("keydown", event => {
-    if (event.ctrlKey && event.key === "Enter") analyzeBtn.click();
-});
-
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener("click", e => {
+document.querySelectorAll('a[href^="#"]').forEach(itemMenu => {
+    itemMenu.addEventListener("click", e => {
         e.preventDefault();
-
-        const area = document.querySelector(link.getAttribute("href"));
-        if (area) area.scrollIntoView({ behavior: "smooth" });
+        const destino = document.querySelector(itemMenu.getAttribute("href"));
+        if (destino) destino.scrollIntoView({ behavior: "smooth" });
     });
 });
