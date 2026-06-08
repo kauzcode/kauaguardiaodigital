@@ -1,12 +1,3 @@
-:root {
-    --azulGuardiao: #58a6ff;
-    --azul2: #1f6feb;
-    --fundo: #0d1117;
-    --card: #161b22;
-    --texto: #e6edf3;
-    --cinzaTexto: #8b949e;
-    --borda: #30363d;
-}
 
 * { box-sizing: border-box; }
 
